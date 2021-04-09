@@ -7,7 +7,7 @@
 
 import Foundation
 
-public func their<Root, Value>(_ f: @escaping (Root) -> Value, g: @escaping (Value, Value) -> Bool) -> (Root, Root) -> Bool {
+public func their<Root, Value>(_ f: @escaping (Root) -> Value, _ g: @escaping (Value, Value) -> Bool) -> (Root, Root) -> Bool {
     return { r1, r2 in
         return g(f(r1), f(r2))
     }
