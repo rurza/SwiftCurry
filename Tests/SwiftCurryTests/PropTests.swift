@@ -37,5 +37,15 @@ final class PropTests: XCTestCase {
         XCTAssertEqual(newUser.favoriteFoods.first?.name, "Tacos!")
     }
     
+    func testOverloadPropValue() throws {
+        let newCity = "Tczew"
+        let newUser = user |> prop(\.location.name, newCity)
+        XCTAssertEqual(newUser.location.name, newCity)
+    }
+    
+    func testOverloadPropMap() throws {
+        let newUser = user |> prop(\.location.name) { $0 + "!" }
+        XCTAssertEqual(newUser.location.name, "Brooklyn!")
+    }
 }
 

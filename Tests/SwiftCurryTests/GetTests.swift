@@ -9,6 +9,7 @@ import XCTest
 @testable import SwiftCurry
 
 final class GetTests: XCTestCase {
+    
     let favoriteFoods = [
         Food(name: "Tacos"),
         Food(name: "Nachos")
@@ -18,5 +19,10 @@ final class GetTests: XCTestCase {
         let names = favoriteFoods.map(get(\.name))
         XCTAssertEqual(names.count, 2)
         XCTAssertEqual(names.first, "Tacos")
+    }
+    
+    func testGetOperator() throws {
+        let foodNamesLength = favoriteFoods |> map(^\Food.name.count)
+        XCTAssertEqual(foodNamesLength.first, 5)
     }
 }

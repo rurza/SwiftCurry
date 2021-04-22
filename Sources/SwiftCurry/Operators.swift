@@ -4,8 +4,6 @@
 //  Created by Adam Różyński on 31/01/2021.
 //
 
-import Foundation
-
 // MARK: |>
 precedencegroup ForwardApplication {
     associativity: left
@@ -85,4 +83,22 @@ public func <> <A: AnyObject>(f: @escaping (A) -> Void, g: @escaping (A) -> Void
         f(a)
         g(a)
     }
+}
+
+// MARK: ^
+prefix operator ^
+/// getter operator
+/// - Parameter kp: the keypath you want to get
+/// - Returns: a function that'll return a value from specified target
+public prefix func ^ <Root, Value>(kp: KeyPath<Root, Value>) -> (Root) -> Value {
+    return get(kp)
+}
+
+/// setter operator
+/// - Parameter kp: they keypath of the value you want to overwrite
+/// - Returns: a function that'll return a new, updated source
+public prefix func ^ <Root, Value>(kp: WritableKeyPath<Root, Value>)
+-> (@escaping (Value) -> Value)
+-> (Root) -> Root {
+    return prop(kp)
 }

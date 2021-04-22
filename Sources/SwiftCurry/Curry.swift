@@ -24,3 +24,11 @@ public func uncurry<A, B, C>(_ f: @escaping (A) -> (B) -> C) -> (A, B) -> C {
 public func zurry<A>(_ f: () -> A) -> A {
     return f()
 }
+
+public func flip<A, B, C>(_ f: @escaping (A) -> (B) -> C) -> (B) -> (A) -> C {
+    return { b in
+        return { a in
+            return f(a)(b)
+        }
+    }
+}

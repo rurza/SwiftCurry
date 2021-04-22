@@ -7,7 +7,9 @@
 
 import Foundation
 
-public func prop<Root, Value>(_ kp: WritableKeyPath<Root, Value>) -> (@escaping (Value) -> Value) -> (Root) -> Root {
+public func prop<Root, Value>(_ kp: WritableKeyPath<Root, Value>)
+-> (@escaping (Value) -> Value)
+-> (Root) -> Root {
     return { update in
         return { root in
             var copy = root
@@ -17,4 +19,19 @@ public func prop<Root, Value>(_ kp: WritableKeyPath<Root, Value>) -> (@escaping 
     }
 }
 
+/// override for setting the value, uncurried prop
+public func prop<Root, Value>(
+    _ kp: WritableKeyPath<Root, Value>,
+    _ value: Value
+) -> (Root) -> Root {
+    prop(kp) { _ in value }
+}
+
+/// override for mapping over
+public func prop<Root, Value>(
+    _ kp: WritableKeyPath<Root, Value>,
+    _ f: @escaping (Value) -> Value
+) -> (Root) -> Root {
+    prop(kp)(f)
+}
 
