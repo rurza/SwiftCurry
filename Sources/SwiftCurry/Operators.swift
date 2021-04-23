@@ -14,6 +14,11 @@ public func |> <A, B>(x: A, f: (A) -> B) -> B {
     return f(x)
 }
 
+public func |> <A>(_ a: A, _ f: (inout A) -> Void) -> A {
+    var a = a
+    f(&a)
+    return a
+}
 
 // MARK: >>>
 precedencegroup ForwardComposition {
@@ -101,4 +106,14 @@ public prefix func ^ <Root, Value>(kp: WritableKeyPath<Root, Value>)
 -> (@escaping (Value) -> Value)
 -> (Root) -> Root {
     return prop(kp)
+}
+
+public prefix func ^ <Root, Value>(kp: WritableKeyPath<Root, Value>)
+-> (@escaping (inout Value) -> Void)
+-> (inout Root) -> Void {
+    return { update in
+        { root in
+            update(&root[keyPath: kp])
+        }
+    }
 }

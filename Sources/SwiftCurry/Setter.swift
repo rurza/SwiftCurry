@@ -35,4 +35,22 @@ public func set<S, T, A, B>(
     setter { _ in value}
 }
 
-//typealias MutableSetter<S, A> = (@escaping (inout A) -> Void) -> (inout S) -> Void
+public typealias MutableSetter<S, A> = (@escaping (inout A) -> Void) -> (inout S) -> Void
+
+public func mver<S, A>(
+    _ setter: MutableSetter<S, A>,
+    _ set: @escaping (inout A) -> Void
+)
+-> (inout S)
+-> Void {
+    setter(set)
+}
+
+public func mut<S, A>(
+    _ setter: MutableSetter<S, A>,
+    _ set: A
+)
+-> (inout S)
+-> Void {
+    setter { $0 = set }
+}
