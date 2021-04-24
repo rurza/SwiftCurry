@@ -80,4 +80,18 @@ final class OverAndSetTests: XCTestCase {
         XCTAssertEqual(newPair.0, "Dupa!")
         XCTAssertEqual(pair.0, "Hello, world!")
     }
+    
+    func testMutOnAnyObject() throws {
+        class ClassUser {
+            internal init(name: String) {
+                self.name = name
+            }
+            
+            var name: String
+        }
+        
+        let user = ClassUser(name: "Adam")
+        user |> mut(^\.name, "😆")
+        XCTAssertEqual(user.name, "😆")
+    }
 }

@@ -47,5 +47,19 @@ final class PropTests: XCTestCase {
         let newUser = user |> prop(\.location.name) { $0 + "!" }
         XCTAssertEqual(newUser.location.name, "Brooklyn!")
     }
+    
+    func testMutablePropOnAnyObject() throws {
+        class ClassUser {
+            internal init(name: String) {
+                self.name = name
+            }
+            
+            var name: String
+        }
+        
+        let user = ClassUser(name: "Adam")
+        user |> (prop(\ClassUser.name)){ $0 = "Test" }
+        XCTAssertEqual(user.name, "Test")
+    }
 }
 

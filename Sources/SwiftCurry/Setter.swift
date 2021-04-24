@@ -54,3 +54,12 @@ public func mut<S, A>(
 -> Void {
     setter { $0 = set }
 }
+
+public func mut<S: AnyObject, A>(
+    _ setter: (@escaping (inout A) -> Void) -> (S) -> Void,
+    _ set: A
+)
+-> (S)
+-> Void {
+    setter { $0 = set }
+}

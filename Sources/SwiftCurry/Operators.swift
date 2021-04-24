@@ -100,7 +100,7 @@ public prefix func ^ <Root, Value>(kp: KeyPath<Root, Value>) -> (Root) -> Value 
 }
 
 /// setter operator
-/// - Parameter kp: they keypath of the value you want to overwrite
+/// - Parameter kp: the keypath of the value you want to overwrite
 /// - Returns: a function that'll return a new, updated source
 public prefix func ^ <Root, Value>(kp: WritableKeyPath<Root, Value>)
 -> (@escaping (Value) -> Value)
@@ -108,6 +108,9 @@ public prefix func ^ <Root, Value>(kp: WritableKeyPath<Root, Value>)
     return prop(kp)
 }
 
+/// setter operator – mutable overload
+/// - Parameter kp: the keypath of the value you want to overwrite
+/// - Returns: a function that'll allow you to update the root in place
 public prefix func ^ <Root, Value>(kp: WritableKeyPath<Root, Value>)
 -> (@escaping (inout Value) -> Void)
 -> (inout Root) -> Void {
@@ -117,3 +120,10 @@ public prefix func ^ <Root, Value>(kp: WritableKeyPath<Root, Value>)
         }
     }
 }
+
+public prefix func ^ <Root: AnyObject, Value>(kp: WritableKeyPath<Root, Value>)
+-> (@escaping (inout Value) -> Void)
+-> (Root) -> Void {
+    return prop(kp)
+}
+

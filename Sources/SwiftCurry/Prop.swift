@@ -35,3 +35,13 @@ public func prop<Root, Value>(
     prop(kp)(f)
 }
 
+public func prop<Root: AnyObject, Value>(_ kp: WritableKeyPath<Root, Value>)
+-> (@escaping (inout Value) -> Void)
+-> (Root) -> Void {
+    return { update in
+        { root in
+            var root = root
+            update(&root[keyPath: kp])
+        }
+    }
+}
