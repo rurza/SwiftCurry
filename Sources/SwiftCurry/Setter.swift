@@ -19,7 +19,7 @@ public func over<S, T, A, B>(
 )
 -> (S)
 -> T {
-    setter(f)
+    return setter(f)
 }
 
 /// this allows us to use `prop` with their overloads
@@ -32,7 +32,7 @@ public func set<S, T, A, B>(
     _ value: B)
 -> (S)
 -> T {
-    setter { _ in value}
+    return setter { _ in value}
 }
 
 public typealias MutableSetter<S, A> = (@escaping (inout A) -> Void) -> (inout S) -> Void
@@ -43,7 +43,7 @@ public func mver<S, A>(
 )
 -> (inout S)
 -> Void {
-    setter(set)
+    return setter(set)
 }
 
 public func mut<S, A>(
@@ -52,7 +52,7 @@ public func mut<S, A>(
 )
 -> (inout S)
 -> Void {
-    setter { $0 = set }
+    return setter { $0 = set }
 }
 
 public func mut<S: AnyObject, A>(
@@ -61,5 +61,9 @@ public func mut<S: AnyObject, A>(
 )
 -> (S)
 -> Void {
-    setter { $0 = set }
+    return setter { $0 = set }
+}
+
+public func mut<S: AnyObject, A>(_ kp: WritableKeyPath<S, A>, _ set: A) -> (S) -> Void {
+    return mut(^kp, set)
 }
