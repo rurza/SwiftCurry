@@ -7,6 +7,9 @@
 
 import Foundation
 
+/// returns setter for passed keypath
+/// - Parameter kp: the KeyPath which will be used
+/// - Returns: `Setter`
 public func prop<Root, Value>(_ kp: WritableKeyPath<Root, Value>)
 -> (@escaping (Value) -> Value)
 -> (Root) -> Root {

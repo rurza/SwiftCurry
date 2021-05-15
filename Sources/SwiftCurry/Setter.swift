@@ -24,7 +24,7 @@ public func over<S, T, A, B>(
 
 /// this allows us to use `prop` with their overloads
 /// - Parameters:
-///   - setter: any "setter" function, like prop or map
+///   - setter: any `Setter` function, like prop or map
 ///   - value: we want to set
 /// - Returns: function that will allow us to change a bigger structure
 public func set<S, T, A, B>(
@@ -55,6 +55,11 @@ public func mut<S, A>(
     return setter { $0 = set }
 }
 
+/// mut overload for reference types
+/// - Parameters:
+///   - setter: any `MutableSetter` function, like prop or map
+///   - set: a new Value
+/// - Returns: a function which parameter is the `S` we want to mutate
 public func mut<S: AnyObject, A>(
     _ setter: (@escaping (inout A) -> Void) -> (S) -> Void,
     _ set: A
@@ -64,6 +69,7 @@ public func mut<S: AnyObject, A>(
     return setter { $0 = set }
 }
 
+/// mut overload for reference types with KeyPath as an argument
 public func mut<S: AnyObject, A>(_ kp: WritableKeyPath<S, A>, _ set: A) -> (S) -> Void {
     return mut(^kp, set)
 }
